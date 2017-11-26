@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax demo</title>
+<body>
+<p id="altitude">
+</p>
+<script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var lat = "51.50";
+    var lon = "-0.12";
+    if (urlParams.has('lat')) {
+        lat = urlParams.get('lat');
+    }
+    if (urlParams.has('lon')) {
+        lon = urlParams.get('lon');
+    }
+    var loc = lat+","+lon;
+    show_response = function(data) {
+        target = document.getElementById("altitude");
+        target.textContent = data;
+    };
+
+    // création de l’objet ‘ajax’
+    var xhr = new XMLHttpRequest();
+    // définition de la commande qui va être envoyée
+    appel = "http://api.weatherunlocked.com/api/current/"+loc+"?app_id=fd751a9f&app_key=8f54a30e0e434841d17c1d4328c05a05"
+    xhr.open("GET", appel);
+    // définition de la fonction exécutée lorsque la réponse
+    // arrive
+    xhr.onload = function() {
+        if (xhr.readyState === 4) { // si la réponse est arrivée
+            if (xhr.status === 200) { // si la réponse indique un succès de la requête
+                var data = xhr.responseText;
+                show_response(data);
+            }
+        }
+    };
+    // envoi de la commande
+    xhr.send();
+
+</script>
+
+</body>
+</html>
